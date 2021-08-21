@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb+srv://luna:hb9uQ0zzw58B7U85@cluster0.e80ge.mongodb.net/Cluster0?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGODB_URI ||'mongodb+srv://luna:hb9uQ0zzw58B7U85@cluster0.e80ge.mongodb.net/Cluster0?retryWrites=true&w=majority', {
 	useNewUrlParser: true, 
 	useUnifiedTopology: true 
 }).then(() => console.log("Connected to MongoDB")).catch(console.error);
