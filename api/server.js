@@ -15,7 +15,6 @@ mongoose.connect('mongodb+srv://luna:hb9uQ0zzw58B7U85@cluster0.e80ge.mongodb.net
 	useUnifiedTopology: true 
 }).then(() => console.log("Connected to MongoDB")).catch(console.error);
 
-// Models
 const Todo = require('./models/Todo');
 
 app.get('/todos', async (req, res) => {
@@ -60,4 +59,16 @@ app.put('/todo/update/:id', async (req, res) => {
 	res.json(todo);
 });
 
-app.listen(3001);
+if ( 
+    process.env.NODE_ENV === "production" ||
+    process.env.NODE_ENV === "staging"
+) {
+    app.use(express.static("client/build"))
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+    })
+}
+
+const port = process.env.PORT || 3001
+
+app.listen(port, () => console.log(`Listening on port ${port}...`));
